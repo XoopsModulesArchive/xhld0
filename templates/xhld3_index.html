@@ -1,0 +1,49 @@
+<script type="text/javascript" src="<{$mod_url}>/phpdate.js"></script>
+<h4 style="text-align:left;"><{$lang_headlines}></h4>
+<div style='padding: 1px; text-align: left;'>
+  <{foreach item=site from=$feed_sites}>
+    <div style="float:left; margin: 8px;">
+      <{if $site.syndication == 'ATOM' }>
+        <img src="images/atom.gif" />
+      <{else}>
+        <img src="images/rss.gif" />
+      <{/if}>
+      <a href="<{$mod_url}>/index.php?id=<{$site.id}>"><{$site.name}></a>
+    </div>
+  <{/foreach}>
+</div>
+
+<hr style="clear: left;" />
+
+<{if $headline}>
+  <{$headline}>
+<{else}>
+  <h5><{$mixlist.lang_listtitle}></h5>
+  <table width="100%">
+    <{section name=i loop=$mixlist.items max=$mixlist.maxitem}>
+      <{if $mixlist.items[i].title != ""}>
+        <tr class="<{cycle name=title values="even,odd"}>">
+
+        <td nowrap="nowrap">
+          <{if $mixlist.items[i].pubdate != ""}>
+            <script type="text/javascript">document.write(phpDate('<{$mixlist.dtfmt_short|escape}>', <{$mixlist.items[i].pubdate|escape}>));</script>
+            <noscript><{$mixlist.items[i].date_short|escape}></noscript>
+          <{/if}>
+        </td>
+
+        <td><a href="<{$mixlist.items[i].link|escape}>" target="_blank"><b><{$mixlist.items[i].title|escape}></b></a></td>
+        <td><a href="<{$mixlist.items[i].site_url|escape}>" target="_blank"><{$mixlist.items[i].site_name|escape}></a></td>
+
+        </tr>
+
+        <{if $smarty.section.i.index lt 10 }>
+          <tr class="<{cycle name=desc values="even,odd"}>">
+          <td></td>
+          <td colspan="2"><{$mixlist.items[i].description}></td>
+          </tr>
+        <{/if}>
+
+      <{/if}>
+    <{/section}>
+  </table>
+<{/if}>
